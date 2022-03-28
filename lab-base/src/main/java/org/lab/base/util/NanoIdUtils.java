@@ -9,6 +9,7 @@ public final class NanoIdUtils {
     public static final int DEFAULT_SIZE = 21;
 
     public static void main(String[] args) {
+
         System.out.println(randomNanoId());
     }
     private NanoIdUtils() {
