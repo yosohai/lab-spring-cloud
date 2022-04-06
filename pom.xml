@@ -7,18 +7,18 @@
     <groupId>org.lab.cloud</groupId>
     <artifactId>lab-spring-cloud</artifactId>
     <version>1.0.0</version>
-    <modules>
-        <module>lab-nosql</module>
-        <module>lab-base</module>
-    </modules>
-    <packaging>pom</packaging>
-    <name>lab-spring-cloud</name>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.5</version>
+        <version>2.3.10.RELEASE</version>
     </parent>
+    <modules>
+        <module>lab-nosql</module>
+        <module>lab-base</module>
+        <module>lab-euraka-service</module>
+    </modules>
+    <packaging>pom</packaging>
+    <name>lab-spring-cloud</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +26,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
+        <spring.boot.vertsion>2.3.15.RELEASE</spring.boot.vertsion>
+        <spring.cloud.vertsion>Hoxton.SR12</spring.cloud.vertsion>
+        <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
         <mybatisplus.version>3.4.0</mybatisplus.version>
         <lombok.version>1.18.20</lombok.version>
         <skipTests>true</skipTests>
@@ -55,6 +58,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.vertsion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--维护springcloud alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>3.1.1</version>
+            </dependency>
             <!--执行 SQL 分析打印-->
             <dependency>
                 <groupId>p6spy</groupId>
@@ -223,11 +246,11 @@
                 <scope>compile</scope>
                 <optional>true</optional>
             </dependency>
-  <!--          <dependency>
-                <groupId>org.wildfly.common</groupId>
-                <artifactId>wildfly-common</artifactId>
-                <version>1.5.4.Final</version>
-            </dependency>-->
+            <!--          <dependency>
+                          <groupId>org.wildfly.common</groupId>
+                          <artifactId>wildfly-common</artifactId>
+                          <version>1.5.4.Final</version>
+                      </dependency>-->
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
@@ -438,19 +461,19 @@
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
         </repository>
-<!--        <repository>
-            <id>pentaho-public</id>
-            <name>Pentaho Public</name>
-            <url>http://nexus.pentaho.org/content/groups/omni/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>-->
+        <!--        <repository>
+                    <id>pentaho-public</id>
+                    <name>Pentaho Public</name>
+                    <url>http://nexus.pentaho.org/content/groups/omni/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>-->
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Sonatype Nexus Staging</name>
