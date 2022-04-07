@@ -16,6 +16,8 @@
         <module>lab-nosql</module>
         <module>lab-base</module>
         <module>lab-euraka-service</module>
+        <module>lab-euraka-client-provider</module>
+        <module>lab-euraka-client-consumer</module>
     </modules>
     <packaging>pom</packaging>
     <name>lab-spring-cloud</name>
@@ -76,6 +78,11 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>3.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>3.1.1</version>
             </dependency>
             <!--执行 SQL 分析打印-->

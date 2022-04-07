@@ -1,0 +1,20 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: client-provider
+eureka:
+  service:
+    hostname: localhost
+    port: 7001
+  instance:
+    hostname: localhost
+  client:
+    #false表示不向注册中心注册自己。
+    register-with-eureka: true
+    #faLse表示自己端就是注册中心，我的职贵就是维护服务实例，并不需要去检索服务
+    fetch-registry: true
+    service-url:
+      #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
+      defaultZone: http://${eureka.service.hostname}:${eureka.service.port}/eureka/
+
