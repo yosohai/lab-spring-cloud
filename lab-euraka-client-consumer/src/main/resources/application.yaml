@@ -12,7 +12,7 @@ eureka:
     hostname: localhost
   client:
     #false表示不向注册中心注册自己。
-    register-with-eureka: true
+    register-with-eureka: false
     #faLse表示自己端就是注册中心，我的职贵就是维护服务实例，并不需要去检索服务
     fetch-registry: true
     service-url:

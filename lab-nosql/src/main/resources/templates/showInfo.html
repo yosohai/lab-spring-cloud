@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show info</title>
+</head>
+<body>
+
+<p>
+    Successfully added user <span th:text="${name}" th:remove="tag"></span> with email
+    <span th:text="${email}" th:remove="tag"></span>
+</p>
+
+</body>
+</html>
