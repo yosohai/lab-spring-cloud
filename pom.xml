@@ -27,6 +27,8 @@
         <module>lab-consul-consumer</module>
         <module>lab-nacos-provider</module>
         <module>lab-nacos-consumer</module>
+        <module>lab-redis</module>
+        <module>lab-flink</module>
     </modules>
 
     <properties>

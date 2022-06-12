@@ -1,2 +1,10 @@
 server:
   port: 8080
+
+spring:
+  application:
+    name: nosql
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    ssl: false
