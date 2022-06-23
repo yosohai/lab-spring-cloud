@@ -21,8 +21,6 @@
             <artifactId>lab-base</artifactId>
             <version>1.0.0</version>
         </dependency>
-    </dependencies>
-    <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
