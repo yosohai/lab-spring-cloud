@@ -29,6 +29,8 @@
         <module>lab-nacos-consumer</module>
         <module>lab-redis</module>
         <module>lab-flink</module>
+        <module>lab-hot-deploy</module>
+        <module>lab-hot-test</module>
     </modules>
 
     <properties>
