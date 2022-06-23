@@ -7,18 +7,29 @@
     <groupId>org.lab.cloud</groupId>
     <artifactId>lab-spring-cloud</artifactId>
     <version>1.0.0</version>
-    <modules>
-        <module>lab-nosql</module>
-        <module>lab-base</module>
-    </modules>
     <packaging>pom</packaging>
     <name>lab-spring-cloud</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.5</version>
+        <version>2.6.2</version>
     </parent>
+    <modules>
+        <module>lab-nosql</module>
+        <module>lab-base</module>
+        <module>lab-euraka-service</module>
+        <module>lab-euraka-client-provider</module>
+        <module>lab-euraka-client-consumer</module>
+        <module>lab-zk-provider</module>
+        <module>lab-zk-consumer</module>
+        <module>lab-consul-provider</module>
+        <module>lab-consul-consumer</module>
+        <module>lab-nacos-provider</module>
+        <module>lab-nacos-consumer</module>
+        <module>lab-redis</module>
+        <module>lab-flink</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +37,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
+        <spring.cloud.vertsion>2021.0.0</spring.cloud.vertsion>
+        <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
+        <netflix.eureka.version>3.1.1</netflix.eureka.version>
+        <netflix.ribbon.version>2.2.9.RELEASE</netflix.ribbon.version>
         <mybatisplus.version>3.4.0</mybatisplus.version>
         <lombok.version>1.18.20</lombok.version>
         <skipTests>true</skipTests>
@@ -55,6 +70,36 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.vertsion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--维护springcloud alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                <version>${netflix.ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>${netflix.eureka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>${netflix.eureka.version}</version>
+            </dependency>
             <!--执行 SQL 分析打印-->
             <dependency>
                 <groupId>p6spy</groupId>
@@ -223,11 +268,11 @@
                 <scope>compile</scope>
                 <optional>true</optional>
             </dependency>
-  <!--          <dependency>
-                <groupId>org.wildfly.common</groupId>
-                <artifactId>wildfly-common</artifactId>
-                <version>1.5.4.Final</version>
-            </dependency>-->
+            <!--          <dependency>
+                          <groupId>org.wildfly.common</groupId>
+                          <artifactId>wildfly-common</artifactId>
+                          <version>1.5.4.Final</version>
+                      </dependency>-->
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
@@ -443,19 +488,19 @@
                 <checksumPolicy>fail</checksumPolicy>
             </snapshots>
         </repository>
-<!--        <repository>
-            <id>pentaho-public</id>
-            <name>Pentaho Public</name>
-            <url>http://nexus.pentaho.org/content/groups/omni/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>-->
+        <!--        <repository>
+                    <id>pentaho-public</id>
+                    <name>Pentaho Public</name>
+                    <url>http://nexus.pentaho.org/content/groups/omni/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>-->
         <repository>
             <id>sonatype-nexus-staging</id>
             <name>Sonatype Nexus Staging</name>
