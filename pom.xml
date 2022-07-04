@@ -31,6 +31,7 @@
         <module>lab-flink</module>
         <module>lab-hot-deploy</module>
         <module>lab-hot-test</module>
+        <module>lab-expand-table</module>
     </modules>
 
     <properties>
@@ -309,6 +310,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
         <dependency>
             <!--JUnit Platform：这是Junit提供的平台功能模块，通过它，其它的测试引擎都可以接入Junit实现接口和执行。
             JUnit JUpiter：这是JUnit5的核心，是一个基于JUnit Platform的引擎实现，它包含许多丰富的新特性来使得自动化测试更加方便和强大。

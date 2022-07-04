@@ -1,20 +1,20 @@
 package org.lab.thread;
 
-public class Test {
+import java.util.stream.IntStream;
+
+public class Thread000 {
     public int a = 0;
 
-    public void increase() {
-        a++;
-    }
-
     public static void main(String[] args) {
-        final Test test = new Test();
+        final Thread000 test = new Thread000();
         for (int i = 0; i < 10; i++) {
             new Thread() {
                 public void run() {
                     for (int j = 0; j < 1000; j++)
                         test.increase();
-                };
+                }
+
+                ;
             }.start();
         }
 
@@ -23,5 +23,11 @@ public class Test {
             Thread.yield();
         }
         System.out.println(test.a);
+        int size = 10;
+        IntStream.range(0, size).forEach(e -> System.out.println(e));
+    }
+
+    public void increase() {
+        a++;
     }
 }
