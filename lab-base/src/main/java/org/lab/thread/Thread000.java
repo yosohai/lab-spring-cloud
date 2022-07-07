@@ -14,7 +14,6 @@ public class Thread000 {
                         test.increase();
                 }
 
-                ;
             }.start();
         }
 
