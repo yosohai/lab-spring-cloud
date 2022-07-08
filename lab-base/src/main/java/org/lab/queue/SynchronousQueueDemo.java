@@ -1,4 +1,4 @@
-package org.lab.thread;
+package org.lab.queue;
 
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
