@@ -36,4 +36,6 @@ public class RedisController {
         long time = 60;
         redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
     }
+
+
 }

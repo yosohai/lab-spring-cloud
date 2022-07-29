@@ -1,6 +1,12 @@
 package org.lab.base.util;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import org.lab.enums.PartIbaPropertyEnum;
+
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +25,15 @@ import java.util.stream.Stream;
  **/
 public class Test {
     public static void main(String[] args) {
+        System.out.println(PartIbaPropertyEnum.APPEARANCE.name());
+        System.out.println(PartIbaPropertyEnum.APPEARANCE.getDesc());
+        LocalDate now = LocalDate.now();
+        System.out.println(now.getYear());
+        System.out.println(now.getMonthValue());
+
+        String project = "demandOrder.getProject()"; // 订单名称
+        project += DateUtil.format(new Date(), DatePattern.PURE_DATETIME_PATTERN);
+        System.out.println(project);
         String str = "CP1/CP2/CP3";
         int i = str.lastIndexOf("/");
         System.out.println(str.substring(i + 1));
