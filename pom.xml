@@ -32,6 +32,7 @@
         <module>lab-hot-deploy</module>
         <module>lab-hot-test</module>
         <module>lab-expand-table</module>
+        <module>lab-validator</module>
     </modules>
 
     <properties>

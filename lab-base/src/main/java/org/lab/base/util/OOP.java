@@ -20,5 +20,7 @@ public class OOP {
 
         System.out.println(String.valueOf(serial));
         serial++;
+
+        System.out.println("5555)9999".split("\\)")[0]);
     }
 }
