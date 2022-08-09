@@ -16,7 +16,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <testng.version>7.3.0</testng.version>
         <hibernate-validator.version>6.0.13.Final</hibernate-validator.version> <!--7.0.5.Final-->
-        <el.version>2.2.5</el.version>
+        <el.version>2.2.6</el.version>
     </properties>
 
     <dependencies>
@@ -31,20 +31,20 @@
             <version>3.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
+            <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
-            <version>3.0.0</version>
+            <version>${el.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <!--这里必须是8.0，因为我使用的hibernate-validator是6.0.13.Final版本-->
-            <version>8.0</version>
+            <version>8.0</version> <!--这里必须是8.0，因为我使用的hibernate-validator是6.0.13.Final版本-->
         </dependency>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

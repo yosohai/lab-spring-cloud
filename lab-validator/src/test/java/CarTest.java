@@ -27,7 +27,11 @@ public class CarTest {
 
     @BeforeClass
     public static void setUp() {
-        Locale.setDefault(new Locale("en", "US"));
+        Locale locale = new Locale("en", "US");
+        locale = Locale.getDefault();
+        System.out.println(locale.getLanguage());
+        System.out.println(locale.getCountry());
+        Locale.setDefault(locale);
         ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
                 .configure()
                 .failFast(true)
