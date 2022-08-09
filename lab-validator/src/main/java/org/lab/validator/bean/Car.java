@@ -1,40 +1,24 @@
-package org.lab.validator;
+package org.lab.validator.bean;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import cn.hutool.core.lang.RegexPool;
+
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
-/**
- * 验证
- *
- * @author lzqing
- * @date 2022-08-08
- * @vsrsion 1.0
- **/
-public class ValidatorDemo {
-    public static void main(String[] args) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Car car = new Car(null, "苏A999999", 1);
 
-        Set<ConstraintViolation<Car>> constraintViolations = validator.validate(car);
-        for (ConstraintViolation<Car> constraintViolation : constraintViolations)
-            System.out.println("错误：" + constraintViolation.getMessage());
-    }
+public class Car {
 
-}
-
-class Car {
-
-    @NotNull
+    @NotBlank
     private String manufacturer;
 
-    @NotNull
+    @NotBlank(message = "{valid.lab.email.blank}")
+    @Email(regexp = RegexPool.EMAIL, message = "{valid.lab.email.illegal_format}")
+    private String email;
+
+
+    @NotBlank
     @Size(min = 2, max = 14)
     private String licensePlate;
 
