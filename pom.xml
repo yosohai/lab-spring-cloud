@@ -33,6 +33,7 @@
         <module>lab-hot-test</module>
         <module>lab-expand-table</module>
         <module>lab-validator</module>
+        <module>lab-log</module>
     </modules>
 
     <properties>
