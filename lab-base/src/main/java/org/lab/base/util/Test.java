@@ -75,8 +75,12 @@ public class Test {
         collect1.stream().forEach(e -> Arrays.stream(e).forEach(System.out::print));
 
         DelayQueue<Person> delayQueue = new DelayQueue<Person>();
-
-
+        String articleName = "55555(fsdfsdfsd)";
+        boolean contains = articleName.indexOf("(") != -1;
+        boolean contains2 = articleName.contains("(");
+        System.out.println("\n" + articleName.split("\\(")[0]);
+        System.out.println(contains);
+        System.out.println(contains2);
     }
 }
 
