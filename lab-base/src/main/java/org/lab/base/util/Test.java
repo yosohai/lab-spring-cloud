@@ -25,6 +25,31 @@ import java.util.stream.Stream;
  **/
 public class Test {
     public static void main(String[] args) {
+
+        try {
+            int a = 1 / 0;
+        } catch (Exception e) {
+        }
+        String str1 = "/Default/订单库/配置项/某年/某月/";
+        String[] split = str1.split("/");
+        System.out.println(split);
+        Arrays.stream(split).forEach(System.out::println);
+
+/*
+        str1.lastIndexOf("/");
+        String substring = str1.substring(str1.lastIndexOf("/")+1);
+        System.out.println(substring);
+*/
+        System.out.println(str1.indexOf("/", 0));
+        int index = 0;
+        while ((index = str1.indexOf("/", index)) != -1) {
+            if (index != 0) {
+                System.out.println(str1.substring(0, index));
+            }
+            index = index + "/".length();
+        }
+
+
         System.out.println(PartIbaPropertyEnum.APPEARANCE.name());
         System.out.println(PartIbaPropertyEnum.APPEARANCE.getDesc());
         LocalDate now = LocalDate.now();
