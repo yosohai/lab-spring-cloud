@@ -35,6 +35,8 @@
         <module>lab-validator</module>
         <module>lab-log</module>
         <module>lab-kafka</module>
+        <module>lab-ws</module>
+        <module>lab-ws2</module>
     </modules>
 
     <properties>
