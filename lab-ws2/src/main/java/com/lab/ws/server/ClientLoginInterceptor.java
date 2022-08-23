@@ -36,6 +36,8 @@ public class ClientLoginInterceptor extends AbstractPhaseInterceptor<SoapMessage
     public void handleMessage(SoapMessage soap) throws Fault {
         List<Header> headers = soap.getHeaders();
         Document doc = DOMUtils.createDocument();
+
+//        Element auth = doc.createElement("authrity");
         Element auth = doc.createElementNS("http://server.ws.lab.com","UserService"); // WebServices：命名空间
         Element username = doc.createElement("username");
         Element password = doc.createElement("password");

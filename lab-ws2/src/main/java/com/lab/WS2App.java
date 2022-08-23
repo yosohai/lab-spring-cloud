@@ -1,14 +1,19 @@
 package com.lab;
 
+import com.lab.ws.server.AddSoapHeader;
+import com.lab.ws.server.AuthInterceptor;
 import com.lab.ws.server.ClientLoginInterceptor;
 import com.lab.ws.server.UserService;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class WS2App {
@@ -29,6 +34,12 @@ public class WS2App {
         String address = "http://admin:123456@localhost:8080/services/user?wsdl";
         // 代理工厂
         JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
+        AddSoapHeader ash = new AddSoapHeader();
+        ArrayList list = new ArrayList();
+        // 添加soap header 信息
+        list.add(ash);
+        //注入拦截器，getOutInterceptors代表调用服务端时触发,getInInterceptors就是被调用才触发
+        jaxWsProxyFactoryBean.setOutInterceptors(list);
         jaxWsProxyFactoryBean.setUsername("admin");
         jaxWsProxyFactoryBean.setPassword("123456");
         // 设置代理地址
