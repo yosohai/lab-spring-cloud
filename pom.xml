@@ -37,6 +37,8 @@
         <module>lab-kafka</module>
         <module>lab-ws</module>
         <module>lab-ws2</module>
+        <module>lab-cas-client</module>
+        <module>lab-ftp</module>
     </modules>
 
     <properties>

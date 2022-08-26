@@ -2,14 +2,12 @@ package org.lab.base.util;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.lab.enums.PartIbaPropertyEnum;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
@@ -23,12 +21,25 @@ import java.util.stream.Stream;
  * @date 2022-06-28
  * @vsrsion 1.0
  **/
+@Slf4j
 public class Test {
     public static void main(String[] args) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "11");
+        map.put("2", "22");
+        map.put("3", "33");
+        map.put("4", "44");
+        Collection<String> values = map.values();
+        List<String> list33 = new ArrayList<>(values);
+
+        list33.stream().forEach(System.out::println);
+
 
         try {
             int a = 1 / 0;
         } catch (Exception e) {
+            log.error("错错了", e);
         }
         String str1 = "/Default/订单库/配置项/某年/某月/";
         String[] split = str1.split("/");

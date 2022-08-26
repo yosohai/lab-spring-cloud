@@ -1,0 +1,26 @@
+#cas:
+#  server-url-prefix: # 认证中心登录页面地址
+#  client-host-url: # 应用地址，也就是自己的系统地址。
+#  authentication-url: # 认证中心地址
+#  loginType: cas # 动态开启 cas 单点登录
+#  urlPattern: /* # cas  验票拦截路径
+# 配置示例：
+#  注：authentication-url 是认证服务器的地址，这个地址千万不要在末尾处追加 /login,否则验票的时候会出现认证服务器无响应，验票不通过的情况。
+#  server-url-prefix 地址配置要加/login，认证服务器地址不要加/login
+server:
+  port: 8088
+cas:
+  # cas服务端的地址-认证平台地址
+  authentication-url: https://cas.server.com:8443/cas
+  # cas服务端的登录地址 认证地址要加login
+  server-url-prefix: https://cas.server.com:8443/cas/login
+  # 当前服务器的地址(客户端) 回调地址
+  client-host-url: http://localhost:8088
+#  loginType: cas
+  # 配置访问哪个url调转到认证平台
+  urlPattern: /sso-test1
+  # 决定票据验证过滤器的版本
+  filterVersion: old
+  serverUrlPrefix: https://cas.server.com:8443/cas
+  serverLoginUrl: https://cas.server.com:8443/cas/login
+  clientHostUrl: http://localhost:8088
