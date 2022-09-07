@@ -29,7 +29,18 @@ import java.util.stream.Stream;
 @Slf4j
 public class Test {
     public static void main(String[] args) {
+        String str66 = "……^1dsf  の  adS -_  DFASFSADF阿德斯防守对方asdfsadf37《？：？@%#￥%#￥%@#$%#@$%^><?1234";
+        String regEx="/^[A-Za-z0-9_\\( \\)\\-\\#]+$";
+        regEx="^[a-zA-Z][a-zA-Z0-9_]$";
+        regEx="/[a-z]+/gi";
 
+        Pattern   p   =   Pattern.compile(regEx);
+        Matcher   mm   =   p.matcher(str66);
+        StringBuffer sb = new StringBuffer();
+        while(mm.find()){
+            sb.append(mm.group());
+        }
+        System.out.println(sb);
 
         String resultExtractMulti = ReUtil.extractMulti("^[A-Za-z0-9]+$", "gsfsdfsd就是快递费加快速度", "$1-$2");
         System.out.println(resultExtractMulti);
@@ -45,7 +56,7 @@ public class Test {
         Matcher m = pattern.matcher(test);
         String str99 = "";
         if (m.find()) {
-            str99 = m.group(1);14
+            str99 = m.group(1);
         }
         System.out.println(str99);
 
