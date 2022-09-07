@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,5 +28,33 @@ public class LogController {
         Map<String, String> map = new HashMap();
         map.put(key, value);
         return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "/query2", method = {RequestMethod.GET, RequestMethod.POST})
+    public void log2(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            logger.error("【response.getWriter()】出错了：", e);
+            writer.write("1111");
+        }
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            logger.error("【response.getWriter()】出错了：", e);
+            writer.write("1/0");
+            return;
+        } finally {
+            writer.close();
+        }
+
+        try {
+            int i = 2 / 0;
+        } catch (Exception e) {
+            logger.error("【response.getWriter()】出错了：", e);
+            writer.write("2/0");
+        }
+
     }
 }

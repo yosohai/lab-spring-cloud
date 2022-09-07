@@ -2,7 +2,10 @@ package org.lab.base.util;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ReUtil;
 import com.google.common.collect.Maps;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import lombok.extern.slf4j.Slf4j;
 import org.lab.enums.PartIbaPropertyEnum;
 
@@ -11,6 +14,8 @@ import java.util.*;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +30,31 @@ import java.util.stream.Stream;
 public class Test {
     public static void main(String[] args) {
 
+
+        String resultExtractMulti = ReUtil.extractMulti("^[A-Za-z0-9]+$", "gsfsdfsd就是快递费加快速度", "$1-$2");
+        System.out.println(resultExtractMulti);
+
+
+
+        String test = "jkfsdjfks-/x(dd)（地方就是打开附件是打开)";
+
+        String test1 = "jkfsdjfks-/x(dd)(地方就是打开附件是打开)";
+
+
+        Pattern pattern = Pattern.compile("/^[\\(（].*[\\)_a-zA-Z0-9]+$");
+        Matcher m = pattern.matcher(test);
+        String str99 = "";
+        if (m.find()) {
+            str99 = m.group(1);14
+        }
+        System.out.println(str99);
+
+
+        int i1 = punctuationMarksAlter(test).lastIndexOf("(");
+
+        String substring = test.substring(0, i1);
+        System.out.println(substring);
+
         Map<String, String> map = new HashMap<>();
         map.put("1", "11");
         map.put("2", "22");
@@ -35,13 +65,16 @@ public class Test {
 
         list33.stream().forEach(System.out::println);
 
+        for (int i = 0; i < list33.size(); i++) {
+            System.out.println(list33.get(i));
+        }
 
         try {
             int a = 1 / 0;
         } catch (Exception e) {
             log.error("错错了", e);
         }
-        String str1 = "/Default/订单库/配置项/某年/某月/";
+        String str1 = "Default/订单库/配置项/某年/某月/";
         String[] split = str1.split("/");
         System.out.println(split);
         Arrays.stream(split).forEach(System.out::println);
@@ -118,7 +151,33 @@ public class Test {
         System.out.println(contains);
         System.out.println(contains2);
     }
+
+    /**
+     * 中文标点符号替换成英文的
+     *
+     * @param str
+     * @return
+     */
+    public static String punctuationMarksAlter(String str) {
+        str = str.replaceAll("（", "(")
+                .replaceAll("）", ")")
+                .replaceAll("；", ";")
+                .replaceAll("‘", "'")
+                .replaceAll("’", "'")
+                .replaceAll("“", "\"")
+                .replaceAll("”", "\"")
+                .replaceAll("：", ":")
+                .replaceAll("？", "?")
+                .replaceAll("【", "[")
+                .replaceAll("】", "]")
+                .replaceAll("！", "!")
+                .replaceAll("．", ".")
+                .replaceAll("，", ",");
+        return str;
+    }
 }
+
+
 
 class Person implements Delayed {
     private String name;
