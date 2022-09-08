@@ -30,9 +30,9 @@ import java.util.stream.Stream;
 public class Test {
     public static void main(String[] args) {
         String str66 = "……^1dsf  の  adS -_  DFASFSADF阿德斯防守对方asdfsadf37《？：？@%#￥%#￥%@#$%#@$%^><?1234";
-        String regEx="/^[A-Za-z0-9_\\( \\)\\-\\#]+$";
-        regEx="^[a-zA-Z][a-zA-Z0-9_]$";
-        regEx="/[a-z]+/gi";
+        String regEx="^[A-Za-z0-9_\\( \\)\\-\\#]+$";
+//        regEx="^[a-zA-Z][a-zA-Z0-9_]$";
+//        regEx="/[a-z]+/gi";
 
         Pattern   p   =   Pattern.compile(regEx);
         Matcher   mm   =   p.matcher(str66);
