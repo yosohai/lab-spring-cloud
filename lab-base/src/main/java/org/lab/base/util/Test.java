@@ -7,6 +7,8 @@ import com.google.common.collect.Maps;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.lab.enums.PartIbaPropertyEnum;
 
 import java.time.LocalDate;
@@ -28,23 +30,63 @@ import java.util.stream.Stream;
  **/
 @Slf4j
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        int i7 = 0;
+        while (i7 < 5) {
+            System.out.println(i7);
+/*            if (i7 == 3) {
+                throw new Exception("dsfsdfsd");
+            }*/
+            i7++;
+        }
+        System.out.println("8888888888888888888888888888888888");
+        System.out.println(StringUtils.leftPad("", 4, "0"));
+
+
+        List<String> list88 = new ArrayList();
+        list88.add("12");
+        list88.add("13");
+        list88.add("14");
+        list88.add("15");
+        list88.add("16");
+        for (String str : list88) {
+
+            System.out.println(str);
+        }
+        System.out.println("888888888888");
+        for (String str : list88) {
+            System.out.println(str);
+        }
+        System.out.println("99999999999999");
+        String o8 = "(182,2278*1134*30)";
+        int i2 = o8.indexOf("(");
+        System.out.println(o8.substring(i2 + 1, o8.length() - 1));
+
+
         String str66 = "……^1dsf  の  adS -_  DFASFSADF阿德斯防守对方asdfsadf37《？：？@%#￥%#￥%@#$%#@$%^><?1234";
-        String regEx="^[A-Za-z0-9_\\( \\)\\-\\#]+$";
+
+        Pattern pat11 = Pattern.compile("[/\\\\]");
+        Matcher m11 = pat11.matcher("Hi/Hello/Bye/");
+
+        while (m11.find()) {
+
+            System.out.println(m11.group());
+        }
+
+        String regEx = "^[A-Za-z0-9_\\( \\)\\-\\#]+$";
 //        regEx="^[a-zA-Z][a-zA-Z0-9_]$";
 //        regEx="/[a-z]+/gi";
 
-        Pattern   p   =   Pattern.compile(regEx);
-        Matcher   mm   =   p.matcher(str66);
+        Pattern p = Pattern.compile(regEx);
+        Matcher mm = p.matcher(str66);
         StringBuffer sb = new StringBuffer();
-        while(mm.find()){
+        while (mm.find()) {
             sb.append(mm.group());
         }
         System.out.println(sb);
 
         String resultExtractMulti = ReUtil.extractMulti("^[A-Za-z0-9]+$", "gsfsdfsd就是快递费加快速度", "$1-$2");
         System.out.println(resultExtractMulti);
-
 
 
         String test = "jkfsdjfks-/x(dd)（地方就是打开附件是打开)";
@@ -187,7 +229,6 @@ public class Test {
         return str;
     }
 }
-
 
 
 class Person implements Delayed {

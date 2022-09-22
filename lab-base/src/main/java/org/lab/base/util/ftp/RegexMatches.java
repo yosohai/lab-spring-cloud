@@ -11,9 +11,13 @@ public class RegexMatches {
     public static void main(String args[]) {
 
         String a = "liu847yan064zhao370";
-        a = "考虑到房价快速的&&&$%$%#$@#$@!#!#aabfooaabfo-_)加上快递费(oabfoobkkk-_()jdfj房价快速的减肥卡萨丁";
-        String regEx = "[^0-9]";
-        regEx = "[^A-Za-z0-9-_\\( \\)-\\-]";
+        a = "考/虑到房价快速的&&&$%$/%#$@#$@!#!#aabfooaabfo-_)加上/快递费(oabfoobkk/k-_()jdfj房价快速的减肥卡萨丁/";
+//        String regEx = "[^0-9]";
+//        regEx = "[^A-Za-z0-9-_\\( \\)-\\/\\\\\\\\-]";
+        String regEx = "[^A-Za-z0-9-_\\( \\)-\\/\\\\\\\\-]"; // 提取出英文字母、数字、下划线、中划线、小括号、正斜杠(/)
+        a = a.replaceAll(regEx, "");
+        System.out.println("a:"+a);
+
 //方法一（需要导入regex类）
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(a);

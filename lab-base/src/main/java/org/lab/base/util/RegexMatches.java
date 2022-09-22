@@ -7,8 +7,8 @@ public class RegexMatches
 {
 
 //   [a-zA-Z0-9\\u4e00-\\u9fa5]
-//   private static String REGEX = "[A-Za-z0-9-_\\( \\)-\\-]";
-   private static String REGEX = "^[A-Za-z]+$";
+   private static String REGEX = "[A-Za-z0-9-_\\( \\)-\\-]";
+//   private static String REGEX = "^[A-Za-z]+$";
    private static String INPUT = "考虑到房价快速的&&&$%$%#$@#$@!#!#aabfooaabfo-_)(oabfoobkkk-_()";
    private static String REPLACE = "";
    public static void main(String[] args) {
