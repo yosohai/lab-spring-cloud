@@ -31,6 +31,12 @@ import java.util.stream.Stream;
 @Slf4j
 public class Test {
     public static void main(String[] args) throws Exception {
+        String[] split1 = "1,2,3".split(",");
+        System.out.println(split1[0]);
+        System.out.println(split1[1]);
+        System.out.println(split1[2]);
+        Arrays.stream(split1).forEach(System.out::println);
+
         int i7 = 0;
         while (i7 < 5) {
             System.out.println(i7);
@@ -197,10 +203,15 @@ public class Test {
         collect1.stream().forEach(e -> Arrays.stream(e).forEach(System.out::print));
 
         DelayQueue<Person> delayQueue = new DelayQueue<Person>();
-        String articleName = "55555(fsdfsdfsd)";
+        String articleName = "超级BOM2.0玻璃-CHSM72M(DG)/F-BH(182,2278*1134*35)";
         boolean contains = articleName.indexOf("(") != -1;
         boolean contains2 = articleName.contains("(");
         System.out.println("\n" + articleName.split("\\(")[0]);
+
+        int endIndex = articleName.lastIndexOf("("); // 获取最后一个括号位置
+        int startIndex = articleName.indexOf("-"); // 获取最后一个括号位置
+        String cm = articleName.substring(startIndex+1, endIndex);
+        System.out.println(cm);
         System.out.println(contains);
         System.out.println(contains2);
     }

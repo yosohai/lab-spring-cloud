@@ -39,6 +39,7 @@
         <module>lab-ws2</module>
         <module>lab-cas-client</module>
         <module>lab-ftp</module>
+        <module>lab-netty</module>
     </modules>
 
     <properties>
