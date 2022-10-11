@@ -40,6 +40,8 @@
         <module>lab-cas-client</module>
         <module>lab-ftp</module>
         <module>lab-netty</module>
+        <module>lab-activity</module>
+        <module>lab-tts</module>
     </modules>
 
     <properties>

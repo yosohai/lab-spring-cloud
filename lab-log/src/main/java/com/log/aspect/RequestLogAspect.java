@@ -1,6 +1,7 @@
 package com.log.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.log.bean.RequestErrorInfo;
 import com.log.bean.RequestInfo;
@@ -47,7 +48,7 @@ public class RequestLogAspect {
         requestInfo.setRequestParams(getRequestParamsByProceedingJoinPoint(proceedingJoinPoint));
         requestInfo.setResult(result);
         requestInfo.setTimeCost(System.currentTimeMillis() - start);
-        logger.info("Request Info      : {}", JSON.toJSONString(requestInfo, SerializerFeature.IgnoreErrorGetter));
+        logger.info("Request Info      : {}", JSON.toJSONString(requestInfo, SerializerFeature.PrettyFormat, SerializerFeature.IgnoreErrorGetter));
 
         return result;
     }
@@ -65,7 +66,7 @@ public class RequestLogAspect {
                 joinPoint.getSignature().getName()));
         requestErrorInfo.setRequestParams(getRequestParamsByJoinPoint(joinPoint));
         requestErrorInfo.setException(e);
-        logger.info(String.format("Error Request Info : %s", JSON.toJSONString(requestErrorInfo)), e);
+        logger.info(String.format("Error Request Info : %s", JSON.toJSONString(requestErrorInfo, SerializerFeature.PrettyFormat, SerializerFeature.IgnoreErrorGetter)), e);
     }
 
     /**
