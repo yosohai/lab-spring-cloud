@@ -42,6 +42,7 @@
         <module>lab-netty</module>
         <module>lab-activity</module>
         <module>lab-tts</module>
+        <module>lab-flowable</module>
     </modules>
 
     <properties>
