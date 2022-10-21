@@ -11,3 +11,25 @@ logging:
     com:
       flow:
         controller: info
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
+  database-schema-update: true
+  common:
+    app:
+      #      目前先设置一个正确但是不一定可用的url地址
+      idm-url: http://localhost:8080/flowable-idm1
+      idm-admin:
+        #        需要设置一个密码，目前先设置，后期不使用
+        password: admin
+        #        默认user为admin，这个地方可设置可不设置
+        user: admin
+
+mybatis-plus:
+  mapper-locations: classpath*:com/lab/flow/**/xml/*Mapper.xml,classpath*:com/lab/flow/**/mapping/*Mapper.xml,classpath:/META-INF/flow-mybatis-mappings/*.xml
+  configuration-properties:
+    prefix:
+    blobType: BLOB
+    boolValue: TRUE
+
+
