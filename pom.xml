@@ -43,6 +43,7 @@
         <module>lab-activity</module>
         <module>lab-tts</module>
         <module>lab-flowable</module>
+        <module>lab-drools</module>
     </modules>
 
     <properties>

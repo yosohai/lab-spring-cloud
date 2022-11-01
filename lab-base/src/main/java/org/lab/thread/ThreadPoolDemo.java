@@ -14,6 +14,7 @@ public class ThreadPoolDemo {
             System.out.println("Task is not finshed,Please wait");
         }
         try {
+            //get()方法用来获取执行结果，这个方法会产生阻塞，会一直等到任务执行完毕才返回
             System.out.println(future.get());
         } catch (InterruptedException e) {
             e.printStackTrace();
