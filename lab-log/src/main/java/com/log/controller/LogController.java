@@ -1,6 +1,8 @@
 package com.log.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/log")
@@ -56,5 +61,22 @@ public class LogController {
             writer.write("2/0");
         }
 
+    }
+
+    @RequestMapping(value = "/list", method = {RequestMethod.POST})
+    public void listFactory(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setContentType("text/html;charset=UTF-8");
+        List<JSONObject> list = Arrays.stream(FactoryInfo.values()).map(e -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("factory_code", e.name());
+                    jsonObject.put("factory_name", e.getFactoryName());
+                    return jsonObject;
+                }
+        ).collect(Collectors.toList());
+        JSONObject obj = new JSONObject();
+        obj.put("code", "200");
+        obj.put("msg", "success");
+        obj.put("data", list);
+        response.getWriter().write(JSONUtil.toJsonStr(obj));
     }
 }

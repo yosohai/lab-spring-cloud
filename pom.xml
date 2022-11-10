@@ -44,6 +44,7 @@
         <module>lab-tts</module>
         <module>lab-flowable</module>
         <module>lab-drools</module>
+        <module>lab-pool</module>
     </modules>
 
     <properties>

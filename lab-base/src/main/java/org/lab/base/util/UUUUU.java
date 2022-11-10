@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UUUUU {
@@ -44,8 +45,10 @@ public class UUUUU {
                 "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278*1134*30)",
                 "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278 1134 35)");
 
+        Optional<String> first = list.stream().filter(e -> e.equals("超级BOM-CHSM72M-HC(166,2094*1038*35)33")).findFirst();
+        System.out.println("6666:" + first.orElse("kong"));
         List<String> collect = list.stream().filter(name -> {
-            if(StrUtil.isBlank(S3)) {
+            if (StrUtil.isBlank(S3)) {
                 return true;
             }
             name = StrUtil.cleanBlank(name);
