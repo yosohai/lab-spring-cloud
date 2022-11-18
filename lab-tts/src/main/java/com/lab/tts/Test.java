@@ -1,13 +1,10 @@
 package com.lab.tts;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
+
+import java.io.File;
 
 
 public class Test {
@@ -80,8 +77,12 @@ public class Test {
 		String fileName = "Operator.doc".toString(); // 文件的默认保存名
 		// 读到流中
 		try {
-			InputStream inStream = new FileInputStream("c:/Operator.doc");
-		} catch (FileNotFoundException e) {
+			File file2 = new File(fileName);
+			if(!file2.exists()) {
+				file2.createNewFile();
+			}
+//			InputStream inStream = new FileInputStream(file2);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // 文件的存放路径
