@@ -4,29 +4,15 @@ import cn.hutool.core.util.StrUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UUUUU {
+public class MultiFilter   {
     public static void main(String[] args) {
 
         String S1 = "182";
         String S2 = "2278*1134*30";
         String S3 = "CHSM72N(DG)/F-BH";
-/*        List<String> list = Arrays.asList(
-                "超级BOM-CHSM72M-HC(166,2094*1038*35)",
-                "超级BOM-CHSM72M-HC(166,2094*1038*30)",
-                "超级BOM-CHSM54M-HC(182,1722*1134*30)",
-                "超级BOM-CHSM54M(BL)-HC(182,1722*1134*30)",
-                "超级BOM-CHSM72M-HC(182,2278*1134*35)",
-                "超级BOM-CHSM72M-HC(182,2278*1134*30）",
-                "超级BOM-CHSM60M-HC(210,2172*1303*35)",
-                "超级BOM-CHSM66M-HC(210,2384*1303*35)",
-                "超级BOM2.0玻璃-CHSM72M(DG)/F-BH(182,2278*1134*35)",
-                "超级BOM2.0玻璃-CHSM72M(DG)/F-BH(182,2278*1134*30)",
-                "超级BOM研发2.0玻璃-CHSM60M(DG)/F-BH(210,2172*1303*35)",
-                "超级BOM研发2.0玻璃-CHSM66M(DG)/F-BH(210,2384*1303*35)",
-                "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278*1134*30)",
-                "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278 1134 35)");*/
 
         List<String> list = Arrays.asList(
                 "超级BOM-CHSM72M-HC(166,2094*1038*35)",
@@ -44,8 +30,10 @@ public class UUUUU {
                 "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278*1134*30)",
                 "超级BOM研发2.0玻璃-CHSM72N(DG)/F-BH(182,2278 1134 35)");
 
+        Optional<String> first = list.stream().filter(e -> e.equals("超级BOM-CHSM72M-HC(166,2094*1038*35)33")).findFirst();
+        System.out.println("6666:" + first.orElse("kong"));
         List<String> collect = list.stream().filter(name -> {
-            if(StrUtil.isBlank(S3)) {
+            if (StrUtil.isBlank(S3)) {
                 return true;
             }
             name = StrUtil.cleanBlank(name);

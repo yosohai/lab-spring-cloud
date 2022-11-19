@@ -1,0 +1,38 @@
+#端口，项目上下文
+server:
+  port: 8080
+  servlet:
+    context-path: /ftp
+
+# 日志输出配置
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: WARN
+        web: ERROR
+  file:
+    path: ./logs
+    name: './logs/springboot-ftp.log'
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n'
+
+sftp:
+  host: 127.0.0.1
+  port: 22
+  username: root
+  password: 123456
+  session:
+    StrictHostKeyChecking: no
+    kex: diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group-exchange-sha256
+  pool:
+    max-idle: 8
+    min-idle: 1
+    max-active: 16
+    max-wait: 150000
+    test-on-borrow: true
+    test-on-return: false
+    test-while-idle: true
+    time-between-eviction-runs: 120000
