@@ -25,7 +25,7 @@ public class LogController {
 
     @RequestMapping(value = "/query", method = {RequestMethod.GET, RequestMethod.POST})
     public String log(HttpServletRequest request, HttpServletResponse response) {
-        MDC.put("requestId", UUID.randomUUID().toString());
+        MDC.put("requestId", UUID.randomUUID().toString().replace("-", ""));
         String key = "zszxz";
         String value = "知识追寻者";
         logger.info("The entry is 【{} {}】.", key, value);
@@ -37,7 +37,7 @@ public class LogController {
 
     @RequestMapping(value = "/query2", method = {RequestMethod.GET, RequestMethod.POST})
     public void log2(HttpServletRequest request, HttpServletResponse response) {
-        MDC.put("requestId", UUID.randomUUID().toString());
+        MDC.put("requestId", UUID.randomUUID().toString().replace("-", ""));
         PrintWriter writer = null;
         try {
             writer = response.getWriter();

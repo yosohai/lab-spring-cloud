@@ -10,6 +10,6 @@ import java.util.UUID;
 public class TestController {
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
     public String test() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

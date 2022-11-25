@@ -1,7 +1,6 @@
 package com.log.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.log.bean.RequestErrorInfo;
 import com.log.bean.RequestInfo;
@@ -50,7 +49,7 @@ public class RequestLogAspect {
         requestInfo.setRequestParams(getRequestParamsByProceedingJoinPoint(proceedingJoinPoint));
         requestInfo.setResult(result);
         requestInfo.setTimeCost(System.currentTimeMillis() - start);
-        MDC.put("requestId", UUID.randomUUID().toString());
+        MDC.put("requestId", UUID.randomUUID().toString().replace("-", ""));
         logger.info("Request Info      : {}", JSON.toJSONString(requestInfo, SerializerFeature.PrettyFormat, SerializerFeature.IgnoreErrorGetter));
         MDC.clear();
         return result;

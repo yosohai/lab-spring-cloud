@@ -20,7 +20,7 @@ public class MyBeanFactoryPostProcessor3 implements BeanFactoryPostProcessor {
         // 获取当前方法
         String method = Thread.currentThread().getStackTrace()[1].getMethodName();
         String log_fmt = "【class name:%s】,【method name：%s】info:{}";
-        MDC.put("requestId", UUID.randomUUID().toString());
+        MDC.put("requestId", UUID.randomUUID().toString().replace("-", ""));
         logger.info(String.format(log_fmt, clazz, method), "这个接口是beanFactory的扩展接口，调用时机在spring在读取beanDefinition信息之后，实例化bean之前。\n" +
                 "在这个时机，用户可以通过实现这个扩展接口来自行处理一些东西，比如修改已经注册的beanDefinition的元信息。");
         MDC.clear();
