@@ -1,12 +1,12 @@
 package org.lab.base.util.juc.delay;
 
+import org.springframework.util.Assert;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
 
 public class DelayTest {
 
@@ -35,6 +35,6 @@ public class DelayTest {
         }
         executor.shutdown();
 
-        assertEquals(consumer.numberOfConsumedElements.get(), numberOfElementsToProduce);
+        Assert.isTrue(consumer.numberOfConsumedElements.get()==numberOfElementsToProduce,"");
     }
 }
