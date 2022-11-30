@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -93,6 +94,34 @@ public class FileUtil {
         System.out.println("文件归属用户:" + owner.getName());
 
 
+    }
+
+
+    public static void recursive(Path path) throws IOException {
+        BasicFileAttributeView fileAttributeView = Files.getFileAttributeView(path, BasicFileAttributeView.class);
+        BasicFileAttributes basicFileAttributes = fileAttributeView.readAttributes();
+
+        DirectoryStream.Filter<? super Path> filter = e -> !e.getName(e.getNameCount() - 1).startsWith("$"); // 文件过滤器
+
+        if (basicFileAttributes.isDirectory()) {
+            // Path 直接遍历方式，不会遍历子目录
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path, filter)) {
+                for (Path pathTemp : directoryStream) {
+//                    System.out.println(pathTemp.getNameCount()); // 目录深度
+//                    System.out.println(pathTemp.getName(pathTemp.getNameCount() - 1)); // 最后一级
+//                    if (pathTemp.getName(pathTemp.getNameCount() - 1).toString().startsWith("$")) {
+//                        continue;
+//                    }
+                    Path resolve = path.resolve(pathTemp);
+                    recursive(resolve);
+                }
+            }
+
+        } else if (basicFileAttributes.isRegularFile()) {
+            System.out.printf("DirectoryStream: %s,Path： %s\n", basicFileAttributes, path);
+
+
+        }
     }
 
     /**
