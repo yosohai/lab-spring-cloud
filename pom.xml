@@ -46,6 +46,7 @@
         <module>lab-drools</module>
         <module>lab-pool</module>
         <module>lab-proguard</module>
+        <module>lab-doc</module>
     </modules>
 
     <properties>
@@ -356,17 +357,6 @@
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>5.2.2</version>
-            </dependency>
-            <!--配置文件加密-->
-            <dependency>
-                <groupId>com.github.ulisesbocchio</groupId>
-                <artifactId>jasypt-spring-boot-starter</artifactId>
-                <version>3.0.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bitbucket.b_c</groupId>
-                <artifactId>jose4j</artifactId>
-                <version>0.7.7</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
