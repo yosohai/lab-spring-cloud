@@ -22,7 +22,7 @@ public class PictureUtil {
     /**
      * 生成图片缩略图
      */
-    public static BufferedImage getSmallerBufferedImage(File sourceFile) throws IOException {
+    public static BufferedImage getThumbBufferedImage(File sourceFile) throws IOException {
         Thumbnails.Builder<File> builder = Thumbnails.of(sourceFile)
                 .size(40, 30)//尺寸
                 .outputQuality(0.8f);//缩略图质量

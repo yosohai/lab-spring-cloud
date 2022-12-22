@@ -26,13 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.UUID;
@@ -46,7 +46,6 @@ public class SignatureController {
 
     @PostMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
     public BufferedImage wordSignature(MultipartFile file) throws IOException {
-
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
             put("sign1", Pictures.ofStream(new ClassPathResource("images/签名图片/丁振.png").getStream(), PictureType.PNG)
@@ -137,7 +136,7 @@ public class SignatureController {
         String ext = StringUtils.substring(fileName, fileName.lastIndexOf('.'), fileName.length());
         File tmpFile = File.createTempFile(this.make32BitUUID(), ext);
         file.transferTo(tmpFile); //转储临时文件
-        final BufferedImage bufferedImage = PictureUtil.getSmallerBufferedImage(tmpFile);
+        final BufferedImage bufferedImage = PictureUtil.getThumbBufferedImage(tmpFile);
 
 
         try (ExcelWriter writer = ExcelUtil.getWriter("classpath:2022(ZTY)-1279.xls");) {
@@ -246,18 +245,33 @@ public class SignatureController {
         return null;
     }
 
-    @PostMapping(value = "getData")
+    /**
+     * postman body binary 文件上传
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/uploadPic")
     @ResponseBody
-    public String getData(HttpServletRequest request) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "utf-8"));) {
-            //获取请求参数
-            StringBuffer sb = new StringBuffer("");
-            String temp = null;
-            while ((temp = br.readLine()) != null) {
-                sb.append(temp);
+    public String uploadPic(HttpServletRequest request) {
+        File file = new File("E:\\test.jpg");
+        if (file != null) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            String inputParamsJsonString = sb.toString();
-            logger.info("inputParamsJsonString=" + inputParamsJsonString);
+        }
+        try (BufferedInputStream bi = new BufferedInputStream(request.getInputStream());
+             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))
+        ) {
+            // 指定要写入文件的缓冲输出字节流
+            byte[] bb = new byte[1024];// 用来存储每次读取到的字节数组
+            int n;// 每次读取到的字节数组的长度
+            while ((n = bi.read(bb)) != -1) {
+                out.write(bb, 0, n);// 写入到输出流
+            }
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
