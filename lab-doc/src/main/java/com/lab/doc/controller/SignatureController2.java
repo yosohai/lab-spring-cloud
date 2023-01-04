@@ -7,8 +7,6 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.data.PictureType;
 import com.deepoove.poi.data.Pictures;
-import com.deepoove.poi.util.PoitlIOUtils;
-import com.lab.doc.bean.SignatureConfig;
 import com.lab.doc.utils.PictureUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,10 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -37,96 +33,50 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.UUID;
 
 @Controller
-public class SignatureController {
+@RequestMapping("/v2")
+public class SignatureController2 {
 
-    @Resource
-    private SignatureConfig signatureConfig;
 
-    private static final Logger logger = LoggerFactory.getLogger(SignatureController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SignatureController2.class);
 
-    private static final String SAVE_PATH = "D:" + File.separator + "file" + File.separator + "doc" + File.separator + "";
 
-    @RequestMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void wordSignature(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @PostMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
+    public BufferedImage wordSignature(MultipartFile file) throws IOException {
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
-            put("sign1", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign1())).getStream(), PictureType.PNG)
+            put("sign1", Pictures.ofStream(new ClassPathResource("images/签名图片/丁振.png").getStream(), PictureType.PNG)
                     .size(50, 25).create());
-            put("sign2", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign2())).getStream(), PictureType.PNG)
+            put("sign2", Pictures.ofStream(new ClassPathResource("images/签名图片/叶怀花.png").getStream(), PictureType.PNG)
                     .size(50, 25).create());
-            put("sign3", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign3())).getStream(), PictureType.PNG)
+            put("sign3", Pictures.ofStream(new ClassPathResource("images/签名图片/吴军.png").getStream(), PictureType.PNG)
                     .size(50, 25).create());
-            put("sign4", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign4())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
-            put("sign5", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign5())).getStream(), PictureType.PNG)
+            put("sign4", Pictures.ofStream(new ClassPathResource("images/签名图片/李文辉.png").getStream(), PictureType.PNG)
                     .size(50, 25).create());
         }};
-        String fileName = String.format("设计任务书模板(软件)-%s.docx", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
-        String agent = request.getHeader("User-Agent").toLowerCase();
-        String browserName = getBrowserName(agent);
 
-        String downFileName = null;
-
-        boolean isMSIE = browserName.indexOf("ie") != -1;
-        if (isMSIE) {
-            System.out.println("----ie内核");
-            downFileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
-        } else {
-            System.out.println("------chrome");
-            downFileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
-        }
-        File file = new File(SAVE_PATH);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-disposition", "attachment;filename=\"" + downFileName + "\"");
         try (XWPFTemplate template = XWPFTemplate.compile(new ClassPathResource("tml/设计任务书模板(软件).docx").getStream()).render(hashMap);
-             FileOutputStream outputStream = new FileOutputStream(SAVE_PATH + fileName); OutputStream out = response.getOutputStream();
-             BufferedOutputStream bos = new BufferedOutputStream(out)) {
+             FileOutputStream outputStream = new FileOutputStream("D:\\file\\文档1.docx")) {
             template.write(outputStream);
-            template.write(bos);
-            outputStream.flush();
-            bos.flush();
-            out.flush();
-            PoitlIOUtils.closeQuietlyMulti(template, outputStream, bos, out);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public String getBrowserName(String agent) {
-        if (agent.indexOf("msie 7") > 0) {
-            return "ie7";
-        } else if (agent.indexOf("msie 8") > 0) {
-            return "ie8";
-        } else if (agent.indexOf("msie 9") > 0) {
-            return "ie9";
-        } else if (agent.indexOf("msie 10") > 0) {
-            return "ie10";
-        } else if (agent.indexOf("msie") > 0) {
-            return "ie";
-        } else if (agent.indexOf("opera") > 0) {
-            return "opera";
-        } else if (agent.indexOf("opera") > 0) {
-            return "opera";
-        } else if (agent.indexOf("firefox") > 0) {
-            return "firefox";
-        } else if (agent.indexOf("webkit") > 0) {
-            return "webkit";
-        } else if (agent.indexOf("gecko") > 0 && agent.indexOf("rv:11") > 0) {
-            return "ie11";
+        String fileName = file.getOriginalFilename();
+        String ext = StringUtils.substring(fileName, fileName.lastIndexOf('.'), fileName.length());
+        File tmpFile = File.createTempFile(this.make32BitUUID(), ext);
+        file.transferTo(tmpFile); //转储临时文件
+        BufferedImage image = ImageIO.read(new FileInputStream(tmpFile));
+        File f = new File(tmpFile.toURI());
+        if (f.delete()) {
+            System.out.println("删除成功");
         } else {
-            return "Others";
+            System.out.println("删除失败");
         }
+        return image;
     }
 
     @PostMapping(value = "/signature", produces = MediaType.IMAGE_JPEG_VALUE)
