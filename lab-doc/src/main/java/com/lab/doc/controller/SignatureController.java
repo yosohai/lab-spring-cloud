@@ -4,6 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.util.MapUtils;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.data.PictureType;
 import com.deepoove.poi.data.Pictures;
@@ -38,10 +40,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -53,6 +57,7 @@ public class SignatureController {
     private static final Logger logger = LoggerFactory.getLogger(SignatureController.class);
 
     private static final String SAVE_PATH = "D:" + File.separator + "file" + File.separator + "doc" + File.separator + "";
+    private static final String SAVE_PATH_EXCEL = "D:" + File.separator + "file" + File.separator + "excel" + File.separator + "";
 
     @RequestMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
     public void wordSignature(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -77,10 +82,10 @@ public class SignatureController {
 
         boolean isMSIE = browserName.indexOf("ie") != -1;
         if (isMSIE) {
-            System.out.println("----ie内核");
+            logger.info("---- ie内核 ----");
             downFileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
         } else {
-            System.out.println("------chrome");
+            logger.info("------ chrome ----");
             downFileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
         }
         File file = new File(SAVE_PATH);
@@ -99,9 +104,10 @@ public class SignatureController {
             out.flush();
             PoitlIOUtils.closeQuietlyMulti(template, outputStream, bos, out);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("设计任务书模板签名失败", e);
         }
     }
+
 
     public String getBrowserName(String agent) {
         if (agent.indexOf("msie 7") > 0) {
@@ -129,6 +135,40 @@ public class SignatureController {
         }
     }
 
+
+    /**
+     * 最简单的填充
+     *
+     * @since 2.1.1
+     */
+    @RequestMapping(value = "/excel/signature", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void excelFill(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 模板注意 用{} 来表示你要用的变量 如果本来就有"{","}" 特殊字符 用"\{","\}"代替
+        String templateFileName = new ClassPathResource("tml/2022(ZTY)-1279.xls").getAbsolutePath();
+
+        File file = new File(SAVE_PATH_EXCEL);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        String fileName = String.format("2022(ZTY)-1279-%s.xls", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        // 根据Map填充
+        String fullFileName = SAVE_PATH_EXCEL + String.format("2022(ZTY)-1279-%s.xls", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
+        // 这里 会填充到第一个sheet， 然后文件流会自动关闭
+        Map<String, Object> map = MapUtils.newHashMap();
+        map.put("name", "张三");
+        map.put("number", 5.2);
+        EasyExcel.write(fullFileName).withTemplate(templateFileName).sheet().doFill(map);
+
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        String downFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + downFileName);
+        EasyExcel.write(response.getOutputStream()).withTemplate(templateFileName).sheet().doFill(map);
+    }
+
+
     @PostMapping(value = "/signature", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public BufferedImage pushHousingPhotoMethod(@RequestBody MultipartFile file) throws IOException {
@@ -155,8 +195,8 @@ public class SignatureController {
         file.transferTo(tmpFile); //转储临时文件
         File toFile = File.createTempFile(this.make32BitUUID(), ext);
         PictureUtil.photoSmaller(tmpFile, toFile);
-
-        try (ExcelWriter writer = ExcelUtil.getWriter("classpath:2022(ZTY)-1279.xls");) {
+        System.out.println(new ClassPathResource("tml/2022(ZTY)-1279.xls").getAbsolutePath());
+        try (ExcelWriter writer = ExcelUtil.getWriter(new ClassPathResource("tml/2022(ZTY)-1279.xls").getAbsolutePath());) {
             writer.setDefaultRowHeight(70);
             writer.setColumnWidth(-1, 30);
             //测试写入10个图片
@@ -167,7 +207,7 @@ public class SignatureController {
                 writePic(writer, 0, i, pictureData, HSSFWorkbook.PICTURE_TYPE_JPEG);
             }
         } catch (Exception e) {
-
+            logger.error("2022(ZTY)-1279出错了", e);
         }
 
 
@@ -177,7 +217,6 @@ public class SignatureController {
         } else {
             System.out.println("删除失败");
         }
-        return;
     }
 
     @PostMapping(value = "/signature3", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -190,7 +229,7 @@ public class SignatureController {
         final BufferedImage bufferedImage = PictureUtil.getThumbBufferedImage(tmpFile);
 
 
-        try (ExcelWriter writer = ExcelUtil.getWriter("classpath:2022(ZTY)-1279.xls")) {
+        try (ExcelWriter writer = ExcelUtil.getWriter(new ClassPathResource("tml/2022(ZTY)-1279.xls").getAbsolutePath())) {
             writer.setDefaultRowHeight(70);
             writer.setColumnWidth(-1, 30);
             //测试写入10个图片
@@ -201,11 +240,10 @@ public class SignatureController {
                 writePic(writer, 0, i, pictureData, HSSFWorkbook.PICTURE_TYPE_PNG);
             }
             byte[] pictureData = FileUtil.readBytes("images/签名图片/丁振.png");
-            writePic(writer, 23, 2, pictureData, HSSFWorkbook.PICTURE_TYPE_PNG);
+            writePic(writer, 3, 24, pictureData, HSSFWorkbook.PICTURE_TYPE_PNG);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         File f = new File(tmpFile.toURI());
         if (f.delete()) {
