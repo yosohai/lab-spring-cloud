@@ -1,4 +1,4 @@
-package com.lab.doc.bean;
+package com.lab.doc.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 @NoArgsConstructor
 @AllArgsConstructor
 @PropertySource(value = "classpath:signature.yml", encoding = "UTF-8", factory = YamlPropertySourceFactory.class)
-//@ConfigurationProperties(prefix = "word1")
-public class SignatureConfig {
+public class WordSignatureConfig {
     @Value("${word1.sign1}")
     private String sign1;
     @Value("${word1.sign2}")

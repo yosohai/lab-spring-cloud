@@ -6,11 +6,13 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.MapUtils;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.data.PictureType;
 import com.deepoove.poi.data.Pictures;
 import com.deepoove.poi.util.PoitlIOUtils;
-import com.lab.doc.bean.SignatureConfig;
+import com.lab.doc.config.ExcelSignatureConfig;
+import com.lab.doc.config.WordSignatureConfig;
 import com.lab.doc.utils.PictureUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +43,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -52,7 +56,10 @@ import java.util.UUID;
 public class SignatureController {
 
     @Resource
-    private SignatureConfig signatureConfig;
+    private ExcelSignatureConfig excelSignatureConfig;
+
+    @Resource
+    private WordSignatureConfig wordSignatureConfig;
 
     private static final Logger logger = LoggerFactory.getLogger(SignatureController.class);
 
@@ -63,16 +70,14 @@ public class SignatureController {
     public void wordSignature(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
-            put("sign1", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign1())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
-            put("sign2", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign2())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
-            put("sign3", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign3())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
-            put("sign4", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign4())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
-            put("sign5", Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", signatureConfig.getSign5())).getStream(), PictureType.PNG)
-                    .size(50, 25).create());
+            for (int i = 1; i < 6; i++) {
+                String key = "sign" + i;
+                Field field = ReflectionUtils.findField(WordSignatureConfig.class, key);
+//                ReflectionUtils.makeAccessible(field);
+                String value = (String) ReflectionUtils.getField(field, wordSignatureConfig);
+                put(key, Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", value)).getStream(), PictureType.PNG)
+                        .size(50, 25).create());
+            }
         }};
         String fileName = String.format("设计任务书模板(软件)-%s.docx", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         String agent = request.getHeader("User-Agent").toLowerCase();
@@ -155,14 +160,39 @@ public class SignatureController {
         String fullFileName = SAVE_PATH_EXCEL + String.format("2022(ZTY)-1279-%s.xls", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         // 这里 会填充到第一个sheet， 然后文件流会自动关闭
         Map<String, Object> map = MapUtils.newHashMap();
-        map.put("name", "张三");
-        map.put("number", 5.2);
-        EasyExcel.write(fullFileName).withTemplate(templateFileName).sheet().doFill(map);
+//        map.put("name", "张三");
+//        map.put("number", 5.2);
 
-        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        // 填充图片
+        ByteArrayOutputStream byteArrayOut = null;
+        for (int i = 1; i <= 15; i++) {
+            byteArrayOut = new ByteArrayOutputStream();
+            String key = "sign" + i;
+            Field field = ReflectionUtils.findField(ExcelSignatureConfig.class, key);
+            ReflectionUtils.makeAccessible(field);
+            String value = (String) ReflectionUtils.getField(field, excelSignatureConfig);
+            //通过反射获取对象
+            BufferedImage bufferImg = ImageIO.read(new ClassPathResource(String.format("images/签名图片/%s", value)).getStream());
+            // 图片后缀格式
+            String picName = value;
+            String picSuffix = picName.substring(picName.lastIndexOf(".") + 1);
+            ImageIO.write(bufferImg, picSuffix, byteArrayOut);
+            bufferImg.flush();
+            // 注意：这里需要put回原来的key里
+            map.put(key, byteArrayOut.toByteArray());
+        }
+
+
+        com.alibaba.excel.ExcelWriter excelWriter = EasyExcel.write(fullFileName).withTemplate(templateFileName).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet(0).build();
+        excelWriter.fill(map, writeSheet);
+        if (fileName.toUpperCase().endsWith(".XLS")) {
+            response.setContentType(ExcelUtil.XLS_CONTENT_TYPE);
+        } else if (fileName.toUpperCase().endsWith(".XLSX")) {
+            response.setContentType(ExcelUtil.XLSX_CONTENT_TYPE);
+        }
         response.setCharacterEncoding("utf-8");
-        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+        // URLEncoder.encode可以防止中文乱码
         String downFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + downFileName);
         EasyExcel.write(response.getOutputStream()).withTemplate(templateFileName).sheet().doFill(map);
