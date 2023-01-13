@@ -134,8 +134,7 @@ public class ThumbController {
             byte[] smallerByte = outputStream.toByteArray();//转换成字节
             String smallerBase64 = new BASE64Encoder().encodeBuffer(smallerByte);//转换成base64串
             smallerBase64 = smallerBase64.replaceAll("\n", "").replaceAll("\r", "");//删除 \r\n
-//            response.getWriter().write(smallerBase64);
-            response.getWriter().write(strArr[1]);
+            response.getWriter().write(smallerBase64);
         } catch (Exception e) {
 
         }
