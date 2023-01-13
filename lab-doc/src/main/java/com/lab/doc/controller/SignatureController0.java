@@ -38,11 +38,11 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/v2")
-public class SignatureController2 {
+@RequestMapping("/v0")
+public class SignatureController0 {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(SignatureController2.class);
+    private static final Logger logger = LoggerFactory.getLogger(SignatureController0.class);
 
 
     @PostMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
