@@ -40,14 +40,14 @@ public class ThumbController {
         }
 
         logger.debug("对数据进行解析，获取文件名和流数据");
-        String suffix = "", dataPrix = strArr[0];
-        if ("data:image/jpeg;".equalsIgnoreCase(dataPrix)) {//data:image/jpeg;base64,base64编码的jpeg图片数据
+        String suffix = "", dataPrefix = strArr[0];
+        if ("data:image/jpeg;".equalsIgnoreCase(dataPrefix)) { // data:image/jpeg;base64,base64编码的jpeg图片数据
             suffix = ".jpg";
-        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrix)) {//data:image/x-icon;base64,base64编码的icon图片数据
+        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrefix)) { // data:image/x-icon;base64,base64编码的icon图片数据
             suffix = ".ico";
-        } else if ("data:image/gif;".equalsIgnoreCase(dataPrix)) {//data:image/gif;base64,base64编码的gif图片数据
+        } else if ("data:image/gif;".equalsIgnoreCase(dataPrefix)) { // data:image/gif;base64,base64编码的gif图片数据
             suffix = ".gif";
-        } else if ("data:image/png;".equalsIgnoreCase(dataPrix)) {//data:image/png;base64,base64编码的png图片数据
+        } else if ("data:image/png;".equalsIgnoreCase(dataPrefix)) { // data:image/png;base64,base64编码的png图片数据
             suffix = ".png";
         } else {
             throw new Exception("上传图片格式不合法");
@@ -59,7 +59,7 @@ public class ThumbController {
             file.mkdirs();
         }
 
-        String imgName = UUID.randomUUID().toString();
+        String imgName = UUID.randomUUID().toString().replace("-", "");
         String tempFileName = imgName + suffix;
         logger.debug("生成文件名为：" + tempFileName);
 
@@ -96,14 +96,14 @@ public class ThumbController {
         }
 
         logger.debug("对数据进行解析，获取文件名和流数据");
-        String suffix = "", dataPrix = strArr[0];
-        if ("data:image/jpeg;".equalsIgnoreCase(dataPrix)) {//data:image/jpeg;base64,base64编码的jpeg图片数据
+        String suffix = "", dataPrefix = strArr[0];
+        if ("data:image/jpeg;".equalsIgnoreCase(dataPrefix)) { // data:image/jpeg;base64,base64编码的jpeg图片数据
             suffix = ".jpg";
-        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrix)) {//data:image/x-icon;base64,base64编码的icon图片数据
+        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrefix)) { // data:image/x-icon;base64,base64编码的icon图片数据
             suffix = ".ico";
-        } else if ("data:image/gif;".equalsIgnoreCase(dataPrix)) {//data:image/gif;base64,base64编码的gif图片数据
+        } else if ("data:image/gif;".equalsIgnoreCase(dataPrefix)) { // data:image/gif;base64,base64编码的gif图片数据
             suffix = ".gif";
-        } else if ("data:image/png;".equalsIgnoreCase(dataPrix)) {//data:image/png;base64,base64编码的png图片数据
+        } else if ("data:image/png;".equalsIgnoreCase(dataPrefix)) { // data:image/png;base64,base64编码的png图片数据
             suffix = ".png";
         } else {
             throw new Exception("上传图片格式不合法");
@@ -115,7 +115,7 @@ public class ThumbController {
             file.mkdirs();
         }
 
-        String imgName = UUID.randomUUID().toString();
+        String imgName = UUID.randomUUID().toString().replace("-", "");
         String tempFileName = imgName + suffix;
         logger.debug("生成文件名为：" + tempFileName);
 
