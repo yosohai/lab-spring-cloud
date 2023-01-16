@@ -14,9 +14,7 @@ import com.deepoove.poi.util.PoitlIOUtils;
 import com.lab.doc.config.Excel2SignatureConfig;
 import com.lab.doc.config.ExcelSignatureConfig;
 import com.lab.doc.config.WordSignatureConfig;
-import com.lab.doc.utils.ImageUtils;
 import com.lab.doc.utils.PictureUtil;
-import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -32,17 +30,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,11 +50,9 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -78,54 +71,6 @@ public class SignatureController {
 
     private static final String SAVE_PATH_DOC = "D:" + File.separator + "file" + File.separator + "doc" + File.separator + "";
     private static final String SAVE_PATH_EXCEL = "D:" + File.separator + "file" + File.separator + "excel" + File.separator + "";
-
-    @ResponseBody
-    @RequestMapping(value = "/thumb")
-    public String getThumbBufferedImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String imageData = request.getParameter("file");
-        if (imageData.startsWith("data:image")) {
-            imageData = imageData.split(",")[1];
-        }
-
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] bytes = decoder.decode(imageData);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-        BufferedImage bufferedImage = ImageIO.read(inputStream);
-        Thumbnails.Builder<BufferedImage> builder = Thumbnails.of(bufferedImage)
-                .size(40, 30)//尺寸
-                .outputQuality(0.8f);//缩略图质量
-
-        BufferedImage image = builder.asBufferedImage();
-        //以JPEG格式向客户端发送
-        ServletOutputStream os = response.getOutputStream();
-        ImageIO.write(image, "PNG", os);
-        inputStream.close();
-        os.flush();
-        os.close();
-//        ImageUtils.bufferedImageToBytes(image)
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        // 返回Base64编码过的字节数组字符串
-        return "data:image/png;base64," + encoder.encode(Objects.requireNonNull(ImageUtils.bufferedImageToBytes(image)));
-    }
-
-    @RequestMapping(value = "/thumb1", produces = MediaType.IMAGE_JPEG_VALUE)
-    @ResponseBody
-    public BufferedImage getThumbBufferedImage1(@RequestBody MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String ext = StringUtils.substring(fileName, fileName.lastIndexOf('.'), fileName.length());
-        File tmpFile = File.createTempFile(this.make32BitUUID(), ext);
-        file.transferTo(tmpFile); //转储临时文件
-        final BufferedImage bufferedImage = PictureUtil.getThumbBufferedImage(tmpFile);
-        File f = new File(tmpFile.toURI());
-        if (f.delete()) {
-            System.out.println("删除成功");
-        } else {
-            System.out.println("删除失败");
-        }
-        return bufferedImage;
-    }
-
 
     @RequestMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
     public void wordSignature(HttpServletRequest request, HttpServletResponse response) throws IOException {

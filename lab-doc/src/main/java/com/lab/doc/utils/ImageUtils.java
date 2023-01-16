@@ -103,25 +103,4 @@ public class ImageUtils {
         ImageIO.write(grayImage, "jpg", outputfile);
         return crop;
     }
-
-    public static void main(String[] args) throws IOException {
-        String imgPath = "E:\\mat\\mvt\\java-ocr-demo\\images\\yt.jpg";
-        // 读取图片为BufferedImage
-        BufferedImage bufferedImage = ImageIO.read(new File(imgPath));
-
-        // 读取图片为灰度图
-        BufferedImage gray = readAsGrayImage(imgPath);
-
-        // 截取图片区域RGB
-        BufferedImage crop = cropImage(imgPath, 240,180);
-
-        // 截取图片区域灰度图
-        BufferedImage cropGray = cropImageToGray(bufferedImage, 240,180);
-
-        // BufferedImage转byte[]
-        byte[] bytes = bufferedImageToBytes(bufferedImage);
-
-        // byte[] 转 BufferedImage
-        BufferedImage bi = bytesToBufferedImage(bytes);
-    }
 }

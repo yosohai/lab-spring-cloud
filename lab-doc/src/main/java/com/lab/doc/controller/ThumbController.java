@@ -136,7 +136,7 @@ public class ThumbController {
             smallerBase64 = smallerBase64.replaceAll("\n", "").replaceAll("\r", "");//删除 \r\n
             response.getWriter().write(smallerBase64);
         } catch (Exception e) {
-
+            logger.error("生成签名缩略图失败", e);
         }
     }
 }
