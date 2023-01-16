@@ -106,7 +106,7 @@ public class SignatureController0 {
         File toFile = File.createTempFile(this.make32BitUUID(), ext);
         PictureUtil.photoSmaller(tmpFile, toFile);
 
-        try (ExcelWriter writer = ExcelUtil.getWriter("classpath:2022(ZTY)-1279.xls");) {
+        try (ExcelWriter writer = ExcelUtil.getWriter("classpath:2022(ZTY)-1279.xls")) {
             writer.setDefaultRowHeight(70);
             writer.setColumnWidth(-1, 30);
             //测试写入10个图片
