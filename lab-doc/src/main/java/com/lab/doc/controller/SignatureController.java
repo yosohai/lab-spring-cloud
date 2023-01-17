@@ -3,6 +3,7 @@ package com.lab.doc.controller;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.util.MapUtils;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.deepoove.poi.XWPFTemplate;
@@ -181,7 +182,7 @@ public class SignatureController {
         }
 
 
-        com.alibaba.excel.ExcelWriter excelWriter = EasyExcel.write(fullFileName).withTemplate(templateFileName).build();
+        ExcelWriter excelWriter = EasyExcel.write(fullFileName).withTemplate(templateFileName).build();
         WriteSheet writeSheet = EasyExcel.writerSheet(0).build();
         excelWriter.fill(map, writeSheet);
         if (fileName.toUpperCase().endsWith(".XLS")) {

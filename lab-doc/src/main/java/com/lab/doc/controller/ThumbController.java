@@ -1,5 +1,6 @@
 package com.lab.doc.controller;
 
+import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.lab.doc.utils.ImageUtils;
 import net.coobird.thumbnailator.Thumbnails;
@@ -39,17 +40,17 @@ public class ThumbController {
 
         logger.debug("对数据进行解析，获取文件名和流数据");
         String suffix = "", dataPrefix = strArr[0];
-        if ("data:image/jpeg;".equalsIgnoreCase(dataPrefix)) { // data:image/jpeg;base64,base64编码的jpeg图片数据
-            suffix = ".jpg";
-        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrefix)) { // data:image/x-icon;base64,base64编码的icon图片数据
-            suffix = ".ico";
-        } else if ("data:image/gif;".equalsIgnoreCase(dataPrefix)) { // data:image/gif;base64,base64编码的gif图片数据
-            suffix = ".gif";
-        } else if ("data:image/png;".equalsIgnoreCase(dataPrefix)) { // data:image/png;base64,base64编码的png图片数据
-            suffix = ".png";
-        } else {
-            throw new Exception("上传图片格式不合法");
-        }
+//        if ("data:image/jpeg;".equalsIgnoreCase(dataPrefix)) { // data:image/jpeg;base64,base64编码的jpeg图片数据
+//            suffix = ".jpg";
+//        } else if ("data:image/x-icon;".equalsIgnoreCase(dataPrefix)) { // data:image/x-icon;base64,base64编码的icon图片数据
+//            suffix = ".ico";
+//        } else if ("data:image/gif;".equalsIgnoreCase(dataPrefix)) { // data:image/gif;base64,base64编码的gif图片数据
+//            suffix = ".gif";
+//        } else if ("data:image/png;".equalsIgnoreCase(dataPrefix)) { // data:image/png;base64,base64编码的png图片数据
+//            suffix = ".png";
+//        } else {
+//            throw new Exception("上传图片格式不合法");
+//        }
 
         File file = new File(SAVE_PATH_IMAGES);
         if (!file.exists()) {
@@ -57,9 +58,6 @@ public class ThumbController {
             file.mkdirs();
         }
 
-        String imgName = UUID.randomUUID().toString().replace("-", "");
-        String tempFileName = imgName + suffix;
-        logger.debug("生成文件名为：" + tempFileName);
 
         //因为BASE64Decoder的jar问题，此处使用spring框架提供的工具包
         byte[] bytes = Base64Utils.decodeFromString(strArr[1]);
@@ -68,7 +66,10 @@ public class ThumbController {
             Thumbnails.Builder<BufferedImage> builder = Thumbnails.of(bufferedImage)
                     .size(150, 70)//尺寸
                     .outputQuality(1.0f);//缩略图质量
-
+            suffix = FileTypeUtil.getType(new ByteArrayInputStream(bytes));
+            String imgName = UUID.randomUUID().toString().replace("-", "");
+            String tempFileName = imgName + "." + suffix;
+            logger.debug("生成文件名为：" + tempFileName);
             BufferedImage image = builder.asBufferedImage();
             FileUtils.writeByteArrayToFile(new File(SAVE_PATH_IMAGES + tempFileName), ImageUtils.bufferedImageToBytes(image));
             /*--------------------上面保存到磁盘，下面返回缩略图流数据-----------------------------------*/

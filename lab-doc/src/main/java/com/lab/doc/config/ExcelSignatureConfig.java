@@ -43,4 +43,14 @@ public class ExcelSignatureConfig {
     private String sign14;
     @Value("${excel1.sign15}")
     private String sign15;
+    @Value("${excel1.sign16}")
+    private String sign16;
+    @Value("${excel1.sign17}")
+    private String sign17;
+    @Value("${excel1.sign18}")
+    private String sign18;
+    @Value("${excel1.sign19}")
+    private String sign19;
+    @Value("${excel1.sign20}")
+    private String sign20;
 }
