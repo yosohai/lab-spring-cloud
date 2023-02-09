@@ -1,6 +1,7 @@
 package com.lab.doc.controller;
 
 import cn.hutool.core.io.resource.ClassPathResource;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -72,6 +73,9 @@ public class SignatureController {
                 Field field = ReflectionUtils.findField(WordSignatureConfig.class, key);
                 ReflectionUtils.makeAccessible(field);
                 String value = (String) ReflectionUtils.getField(field, wordSignatureConfig);
+                if(StrUtil.isBlank(value)) {
+                    continue;
+                }
                 put(key, Pictures.ofStream(new ClassPathResource(String.format("images/签名图片/%s", value)).getStream(), PictureType.PNG)
                         .size(50, 25).create());
             }
@@ -88,7 +92,7 @@ public class SignatureController {
             downFileName = new String(fileName.getBytes("GBK"), "ISO8859-1");
         } else {
             logger.info("------ chrome ----");
-            downFileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
+            downFileName = new String(fileName.getBytes("UTF-8"), "ISO8859-1");
         }
         File file = new File(SAVE_PATH_DOC);
         if (!file.exists()) {
@@ -170,6 +174,9 @@ public class SignatureController {
             Field field = ReflectionUtils.findField(ExcelSignatureConfig.class, key);
             ReflectionUtils.makeAccessible(field);
             String value = (String) ReflectionUtils.getField(field, excelSignatureConfig);
+            if(StrUtil.isBlank(value)) {
+                continue;
+            }
             //通过反射获取对象
             BufferedImage bufferImg = ImageIO.read(new ClassPathResource(String.format("images/签名图片/%s", value)).getStream());
             // 图片后缀格式
@@ -228,6 +235,9 @@ public class SignatureController {
             Field field = ReflectionUtils.findField(Excel2SignatureConfig.class, key);
             ReflectionUtils.makeAccessible(field);
             String value = (String) ReflectionUtils.getField(field, excel2SignatureConfig);
+            if(StrUtil.isBlank(value)) {
+                continue;
+            }
             //通过反射获取对象
             BufferedImage bufferImg = ImageIO.read(new ClassPathResource(String.format("images/签名图片/%s", value)).getStream());
             // 图片后缀格式
