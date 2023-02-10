@@ -62,7 +62,7 @@ public class SignatureController {
     private static final String SAVE_PATH_DOC = "D:" + File.separator + "file" + File.separator + "doc" + File.separator + "";
     private static final String SAVE_PATH_EXCEL = "D:" + File.separator + "file" + File.separator + "excel" + File.separator + "";
 
-    @RequestMapping(value = "/word/signature", produces = MediaType.IMAGE_JPEG_VALUE)
+    @RequestMapping(value = "/word/signature")
     public void wordSignature(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final List<String> list = new ArrayList<>();
@@ -146,7 +146,7 @@ public class SignatureController {
     /**
      * excel填充
      */
-    @RequestMapping(value = "/excel/signature", produces = MediaType.IMAGE_JPEG_VALUE)
+    @RequestMapping(value = "/excel/signature")
     public void excelFill(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 模板注意 用{} 来表示你要用的变量 如果本来就有"{","}" 特殊字符 用"\{","\}"代替
         String templateFileName = new ClassPathResource("tml/2022(ZTY)-1279.xls").getAbsolutePath();
@@ -252,6 +252,8 @@ public class SignatureController {
         com.alibaba.excel.ExcelWriter excelWriter = EasyExcel.write(fullFileName).withTemplate(templateFileName).build();
         WriteSheet writeSheet = EasyExcel.writerSheet(0).build();
         excelWriter.fill(map, writeSheet);
+        excelWriter.finish();
+        excelWriter.close();
         if (fileName.toUpperCase().endsWith(".XLS")) {
             response.setContentType(ExcelUtil.XLS_CONTENT_TYPE);
         } else if (fileName.toUpperCase().endsWith(".XLSX")) {
