@@ -47,6 +47,7 @@
         <module>lab-pool</module>
         <module>lab-proguard</module>
         <module>lab-doc</module>
+        <module>lab-x2pdf</module>
     </modules>
 
     <properties>
