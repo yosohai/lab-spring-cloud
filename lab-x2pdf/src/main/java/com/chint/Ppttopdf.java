@@ -35,10 +35,10 @@ public class Ppttopdf {
         //输入ppt的路径
         File pptFile = new File("D:\\file\\ppt1.pptx");
         List<File> files = pptx2Png(pptFile);
-        png2Pdf(files,"D:\\file\\ppt1.pdf");
+        png2Pdf(files, "D:\\file\\ppt1.pdf");
     }
 
-    public static   List<File> ppt2Png(File pptFile) {
+    public static List<File> ppt2Png(File pptFile) {
         List<File> pngFileList = new ArrayList<>();
         long startTime = System.currentTimeMillis();
 
@@ -128,7 +128,7 @@ public class Ppttopdf {
             }
         }
         long endTime = System.currentTimeMillis();
-       // LOGGER.info("ppt2Png的时间：{}", endTime - startTime);
+        // LOGGER.info("ppt2Png的时间：{}", endTime - startTime);
         //ystem.out.println(e);
         return pngFileList;
     }
@@ -250,7 +250,7 @@ public class Ppttopdf {
             document.close();
 
             // 添加水印
-           // boolean ret = PDFWatermarkUtil.addWatermark(inFilePath, pdfFilePath, watermarkPath);
+            // boolean ret = PDFWatermarkUtil.addWatermark(inFilePath, pdfFilePath, watermarkPath);
            /* if (ret) {
                 File pdfFile = new File(pdfFilePath);
                 return pdfFile;

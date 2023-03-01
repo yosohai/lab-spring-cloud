@@ -19,24 +19,25 @@ public class Topdf {
 
     /**
      * 转pdf doc docx xls xlsx
+     *
      * @param path
      */
     public void docTopdf(String path) {
 
         File inputWord = new File("C:\\Users\\29934\\Documents\\Tencent Files\\2993481541\\FileRecv\\1111.docx");
         File outputFile = new File("C:\\Users\\29934\\Documents\\Tencent Files\\2993481541\\FileRecv\\1111.pdf");
-        try  {
+        try {
             InputStream docxInputStream = new FileInputStream(inputWord);
             OutputStream outputStream = new FileOutputStream(outputFile);
             IConverter converter = LocalConverter.builder().build();
-            String fileTyle=path.substring(path.lastIndexOf("."),path.length());//获取文件类型
-            if(".docx".equals(fileTyle)){
+            String fileTyle = path.substring(path.lastIndexOf("."), path.length());//获取文件类型
+            if (".docx".equals(fileTyle)) {
                 converter.convert(docxInputStream).as(DocumentType.DOCX).to(outputStream).as(DocumentType.PDF).execute();
-            }else if(".doc".equals(fileTyle)){
+            } else if (".doc".equals(fileTyle)) {
                 converter.convert(docxInputStream).as(DocumentType.DOC).to(outputStream).as(DocumentType.PDF).execute();
-            }else if(".xls".equals(fileTyle)){
+            } else if (".xls".equals(fileTyle)) {
                 converter.convert(docxInputStream).as(DocumentType.XLS).to(outputStream).as(DocumentType.PDF).execute();
-            }else if(".xlsx".equals(fileTyle)){
+            } else if (".xlsx".equals(fileTyle)) {
                 converter.convert(docxInputStream).as(DocumentType.XLSX).to(outputStream).as(DocumentType.PDF).execute();
             }
             outputStream.close();
@@ -48,9 +49,8 @@ public class Topdf {
 
 
     /**
-     *
-     *            生成pdf文件
-     *            需要转换的图片路径的数组
+     * 生成pdf文件
+     * 需要转换的图片路径的数组
      */
     public static void main(String[] args) {
         try {
