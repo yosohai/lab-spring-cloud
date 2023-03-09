@@ -12,10 +12,12 @@ public class Leetcode001 {
         print(ints);
         ints = Solution.twoSum1(new int[]{2, 7, 11, 15}, 18);
         print(ints);
+        ints = Solution.twoSum2(new int[]{2, 7, 11, 15}, 18);
+        print(ints);
     }
 
     public static void print(int[] nums) {
-        System.out.println(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+        System.out.println(Arrays.stream(nums).sorted().boxed().collect(Collectors.toList()));
     }
 }
 
@@ -41,5 +43,17 @@ class Solution {
             }
         }
         return null;
+    }
+
+    public static int[] twoSum2(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int sub = target - nums[i];
+            if (map.containsKey(sub)) {
+                return new int[]{i, map.get(sub)};
+            }
+            map.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("No two sum solution");
     }
 }

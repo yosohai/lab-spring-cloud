@@ -48,6 +48,7 @@
         <module>lab-proguard</module>
         <module>lab-doc</module>
         <module>lab-x2pdf</module>
+        <module>lab-tokenizer</module>
     </modules>
 
     <properties>
